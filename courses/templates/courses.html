@@ -1,0 +1,26 @@
+{% extends "partials/_coursesarticle.html" %}
+
+{% block title %}
+    Categories
+{% endblock title %}
+
+{% block content %} 
+    <h1>Categories</h1>
+    <hr>
+    <p class="ms-1"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos asperiores alias quo ab minus! Consequatur impedit labore fugit placeat doloremque reprehenderit repellat earum culpa, minima rem, mollitia sapiente aliquam alias. </p>
+{% endblock %}
+
+{% block courseslist %}
+<div class="col-3">
+    <ul class="list-group">
+        <a href="{% url 'coursesSlug' %}" class="list-group-item list-group-item-action active">
+            <h4 class="m-0">
+                Categories
+            </h4>
+        </a>
+        {% for category in categories %}
+        <a href="{% url 'categorySlug' category.slug %}" class="list-group-item list-group-item-action">{{ category.title }}</a>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

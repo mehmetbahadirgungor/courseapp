@@ -1,0 +1,48 @@
+{% extends "partials/_coursesarticle.html" %}
+
+{% load static %}
+
+{% block title %}
+    Courses List
+{% endblock title %}
+
+{% block content %} 
+    <h1>Courses List</h1>
+    <hr>
+    <a href="{% url "createCourse" %}" class="btn btn-success mt-3 mb-3">Create Course</a>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Edit</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for course in courses %}
+            <tr>
+                <td>
+                    <img style="width:150px; height:75px;" src="{{ course.imgURL.url }}">
+                </td>
+                <td>{{ course.title }}</td>
+                <td>
+                    <form action="{% url 'course-edit' course.slug %}">   
+                        {% csrf_token %}
+                        <input type="hidden" name="slug" value="{{ course.slug }}">
+                        <button class="btn btn-primary">
+                            Edit
+                        </button>
+                    </form>
+                    <form action="{% url 'courselist' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="slug" value="{{ course.slug }}">
+                        <button class="btn btn-danger">
+                            Delete
+                        </button>
+                    </form>
+                </td>  
+            </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+{% endblock %}

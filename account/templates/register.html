@@ -1,0 +1,16 @@
+{% extends "partials/_coursesarticle.html" %}
+
+{% block title %}
+    Register
+{% endblock title %}
+
+{% block content %} 
+    <h1>Register</h1>
+    <hr>
+    <form action="{% url "register" %}" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <button class="btn btn-primary">Register</button>
+    </form>
+{% endblock %}
+

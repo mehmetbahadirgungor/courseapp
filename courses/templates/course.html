@@ -1,0 +1,65 @@
+{% extends "partials/_coursesarticle.html" %}
+
+{% load static %}
+
+{% block title %}
+    Courses - {{ course.title }}
+{% endblock title %}
+
+{% block content %} 
+    <h1 class="ms-1">{{ course.title }}</h1>
+    {% for course in courses %}
+        {% if course.isActive %}
+            <div class="ms-1">
+                <div class="card mb-3" style="max-width: 540px;">
+                    <div class="row g-0">
+                    <div class="col-md-4 m-auto">
+                        <img src="{{ course.imgURL.url }}" class="img-fluid rounded-start" alt="...">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <a href="#" class="card-title h5"> {{ course.title }} </a>
+                            <p class="card-text mb-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Non vitae esse reprehenderit unde aliquam sed.</p>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+    {% if courses.count == 0 %}
+        <div class="alert alert-danger">
+            Course is not found.
+        </div>
+    {% endif %}
+    {% if paginator.num_pages > 1 %}
+        <nav class="ms-1" aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item {% if courses.has_previous == False %}disabled{% endif %}"><a class="page-link" href="?page={% if courses.has_previous == True %}{{ courses.previous_page_number }}{% endif %}">Previous</a></li>
+                
+                {% if courses.has_next == False and courses.number|add:"-2" in paginator.page_range %}<li class="page-item "><a class="page-link" href="?page={{ courses.number|add:"-2" }}">{{ courses.number|add:"-2" }}</a></li>{% endif %}
+                {% if courses.has_previous == True %}<li class="page-item "><a class="page-link" href="?page={{ courses.number|add:"-1" }}">{{ courses.number|add:"-1" }}</a></li>{% endif %}
+                <li class="page-item disabled"><a class="page-link" href="?page={{ courses.number }}">{{ courses.number }}</a></li>
+                {% if courses.has_next == True %}<li class="page-item"><a class="page-link" href="?page={{ courses.number|add:"+1" }}">{{ courses.number|add:"+1" }}</a></li>{% endif %}
+                {% if courses.has_previous == False and courses.number|add:"+2" in paginator.page_range %}<li class="page-item "><a class="page-link" href="?page={{ courses.number|add:"+2" }}">{{ courses.number|add:"+2" }}</a></li>{% endif %}
+
+                <li class="page-item {% if courses.has_next == False %}disabled{% endif %}"><a class="page-link" href="?page={% if courses.has_next == True %}{{ courses.next_page_number }}{% endif %}">Next</a></li>
+            </ul>
+        </nav>
+    {% endif %}
+{% endblock %}
+
+{% block courseslist %}
+<div class="col-3">
+    <ul class="list-group">
+        <a href="{% url 'coursesSlug' %}" class="list-group-item list-group-item-action active">
+            <h4 class="m-0">
+                Categories
+            </h4>
+        </a>
+        {% for category in categories %}
+        <a href="{% url 'categorySlug' category.slug %}" class="list-group-item list-group-item-action {% if selectedCategory == category.slug %}active{% endif %}">{{ category.title }}</a>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
